@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "Chrome Socket API Server",
+  "description": "listen & accept for socket",
+  "version": "0.1",
+  "app": {
+    "background": {
+      "scripts": ["server.js"]
+    }
+  },
+  "permissions": [
+    "experimental",
+    {
+      "socket": [ "tcp-listen" ]
+    }
+  ]
+}
