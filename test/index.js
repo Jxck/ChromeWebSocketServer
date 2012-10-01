@@ -1,4 +1,4 @@
-var parser = require('../parser').parser;
+var parser = require('../lib/parser').parser;
 var fixture = ''
 + 'GET / HTTP/1.1'
 +'\n'+ 'Upgrade: websocket'

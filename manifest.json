@@ -6,9 +6,9 @@
   "app": {
     "background": {
       "scripts": [
-        "sha1.js",
-        "base64.js",
-        "parser.js",
+        "lib/sha1.js",
+        "lib/base64.js",
+        "lib/parser.js",
         "server.js"]
     }
   },
