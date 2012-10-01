@@ -16,32 +16,6 @@ function arrayBuffer2String(buf, callback) {
   f.readAsText(blob);
 }
 
-var responce = function(msg) {
-  var sep = '\r\n';
-
-  var body = [
-    '<!DOCTYPE html>',
-    '<html>',
-    ' <head>',
-    '   <title>Chrome Socket API Server</title>',
-    ' </head>',
-    '<body>',
-    ' <h1>' + msg + '</h1>',
-    '</body>',
-    '</html>'
-  ].join(sep);
-
-  var header = [
-    'HTTP/1.1 200 OK',
-    'Server: chrome24',
-    'Content-Length: ' + body.length,
-    'Connection: Close',
-    'Content-Type: text/html'
-  ].join(sep);
-
-  return header + sep + sep + body;
-};
-
 const socket = chrome.socket;
 socket.create('tcp', {}, function onServerSocketCreate(socketInfo) {
   var socketId = socketInfo.socketId
@@ -62,16 +36,15 @@ socket.create('tcp', {}, function onServerSocketCreate(socketInfo) {
         socket.read(acceptedSocketId, function onRead(readInfo) {
           arrayBuffer2String(readInfo.data, function(str) {
             console.log('readInfo.data', str);
-          });
+            var header = parser(str);
+            console.log(header);
 
-          var responce_str = responce('hello');
-          console.log(responce_str);
-
-          string2ArrayBuffer(responce_str, function(buf) {
-            // write to socket
-            socket.write(acceptedSocketId, buf, function() {
-              // dosen't work
-              // socket.destroy(acceptedSocketId);
+            string2ArrayBuffer(header, function(buf) {
+              // write to socket
+              socket.write(acceptedSocketId, buf, function() {
+                // dosen't work
+                // socket.destroy(acceptedSocketId);
+              });
             });
           });
         });

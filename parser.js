@@ -1,14 +1,16 @@
-function parser(header_str) {
-  var header_arr = header_str.replace(/ /g, '').split('\n');
+if (typeof module !== 'undefined') {
+  base64encode = require('./base64').base64encode;
+  sha1 = require('./sha1.js').sha1;
+}
+this.parser = function(header_str) {
+  var header_arr = header_str.trim().replace(/ /g, '').split('\n');
   var method = header_arr .shift();
 
   var header_obj = {};
   header_arr.forEach(function(line) {
-    var arr = line.split(':');
+    var arr = line.trim().split(':');
     header_obj[arr.shift()] = arr.join('');
   });
-
-  log(header_obj);
 
   // websocket handshake
   if (header_obj['Connection'] === 'Upgrade' &&
@@ -24,8 +26,9 @@ function parser(header_str) {
 
     // key
     var key = header_obj['Sec-WebSocket-Key'];
-    var sha1 = sha1bin(key + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11');
-    var base64 = base64encode(sha1);
+    console.log(JSON.stringify(key));
+    var sha1bin = sha1.bin(key + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11');
+    var base64 = base64encode(sha1bin);
 
     var headers = [
       // The first line is an HTTP Status-Line
@@ -35,13 +38,11 @@ function parser(header_str) {
       , 'Upgrade: websocket'
       , 'Connection: Upgrade'
       // Accept will checked by client which is expected
-      , 'Sec-WebSocket-Accept: ' + key
-      // option fields can be included
-      // main is subprotocol that indicates server has selected
-      , 'Sec-WebSocket-Protocol: ' + protocol
+      , 'Sec-WebSocket-Accept: ' + base64
     ].concat('', '').join('\r\n');
+    console.log(JSON.stringify(headers));
     return headers;
   } else {
     console.assert(false, 'something wrong :(');
   }
-}
+};
