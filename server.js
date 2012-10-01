@@ -42,8 +42,11 @@ socket.create('tcp', {}, function onServerSocketCreate(socketInfo) {
             string2ArrayBuffer(header, function(buf) {
               // write to socket
               socket.write(acceptedSocketId, buf, function() {
-                // dosen't work
-                // socket.destroy(acceptedSocketId);
+                socket.read(acceptedSocketId, function onRead(readInfo) {
+                  arrayBuffer2String(readInfo.data, function(str) {
+                    console.log('readInfo.data', str);
+                  });
+                });
               });
             });
           });
