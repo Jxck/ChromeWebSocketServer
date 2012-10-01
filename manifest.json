@@ -5,7 +5,11 @@
   "version": "0.1",
   "app": {
     "background": {
-      "scripts": ["server.js"]
+      "scripts": [
+        "sha1.js",
+        "base64.js",
+        "parser.js",
+        "server.js"]
     }
   },
   "permissions": [
