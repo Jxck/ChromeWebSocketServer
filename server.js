@@ -43,9 +43,9 @@ socket.create('tcp', {}, function onServerSocketCreate(socketInfo) {
               // write to socket
               socket.write(acceptedSocketId, buf, function() {
                 socket.read(acceptedSocketId, function onRead(readInfo) {
-                  arrayBuffer2String(readInfo.data, function(str) {
-                    console.log('readInfo.data', str);
-                  });
+                  var receivedData = readInfo.data
+                  console.log('readInfo.data', receivedData);
+                  //debugger;
                 });
               });
             });
