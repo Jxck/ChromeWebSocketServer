@@ -105,3 +105,5 @@ function base64decode(str) {
     }
     return out;
 }
+this.base64encode = base64encode;
+this.base64decode = base64decode;

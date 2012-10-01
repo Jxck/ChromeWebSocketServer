@@ -1,4 +1,3 @@
-
 /*  /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 	charset= shift_jis
 	
@@ -41,7 +40,7 @@
 /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/   */
 
 
-sha1 = new function()
+this.sha1 = new function()
 {
 	var blockLen = 64;
 	var state = [ 0x67452301 , 0xefcdab89 , 0x98badcfe , 0x10325476 , 0xc3d2e1f0 ];
@@ -188,5 +187,3 @@ sha1 = new function()
 	var K = [ 0x5a827999 , 0x6ed9eba1 , 0x8f1bbcdc , 0xca62c1d6 ];
 
 }
-
-
