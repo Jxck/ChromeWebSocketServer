@@ -90,10 +90,33 @@ socket.create('tcp', {}, function onServerSocketCreate(socketInfo) {
                    * var ws = new WebSocket("ws://localhost:3000");
                    * ws.send('hoge');
                    */
-                  for(var i=0; i<4; i++) {
-                    // h o g e
-                    console.log(String.fromCharCode(dv.getUint8(i)));
+                  var msg = '';
+                  for(var i=0; i<payloadLength; i++) {
+                    msg += String.fromCharCode(dv.getUint8(i));
                   }
+                  console.log('message', msg);
+
+                  var sendData = new ArrayBuffer(6)
+                    , sendDataView = new DataView(sendData)
+                    ;
+
+                  // FIN:1, opcode:1
+                  // 0x81 = 10000001
+                  sendDataView.setUint8(0, 0x81);
+                  // MASK:0, len:4
+                  // 0x4 = 100
+                  sendDataView.setUint8(1, 0x4);
+
+                  // payload data
+                  // send data "test"
+                  sendDataView.setUint8(2, 'test'.charCodeAt(0));
+                  sendDataView.setUint8(3, 'test'.charCodeAt(1));
+                  sendDataView.setUint8(4, 'test'.charCodeAt(2));
+                  sendDataView.setUint8(5, 'test'.charCodeAt(3));
+
+                  socket.write(acceptedSocketId, sendData, function() {
+                    console.log('send message to client');
+                  });
                 });
               });
             });
